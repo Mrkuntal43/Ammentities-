@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Your Property - Kanelijo</title>
+    <link rel="stylesheet" href="lala.css">
+    <link rel="stylesheet" href="page.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles specific to listing page */
+        .listing-hero {
+            min-height: 40vh;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .listing-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .listing-hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .listing-hero h1 {
+            font-size: clamp(36px, 6vw, 56px);
+            font-weight: 800;
+            margin-bottom: var(--space-md);
+            letter-spacing: -1px;
+        }
+
+        .listing-hero p {
+            font-size: 18px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .listing-form-section {
+            padding: var(--space-2xl) 0;
+            background: var(--bg-primary);
+        }
+
+        .listing-form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            padding: var(--space-2xl);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border);
+        }
+
+        .form-section {
+            margin-bottom: var(--space-2xl);
+            padding-bottom: var(--space-2xl);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .form-section-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: var(--space-md);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            letter-spacing: -0.5px;
+        }
+
+        .form-section-title svg {
+            stroke: var(--primary);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .form-label .required {
+            color: var(--danger);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            font-family: var(--font-body);
+            font-size: 14px;
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: white;
+            color: var(--text-primary);
+            transition: all var(--transition-fast);
+        }
+
+        .form-input:hover,
+        .form-select:hover,
+        .form-textarea:hover {
+            border-color: var(--primary);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: var(--space-md);
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            background: white;
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-item label {
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 0.3px;
+        }
+
+        .checkbox-item.checked {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .file-upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: var(--space-xl);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            background: var(--bg-primary);
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .file-upload-area.dragover {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.1);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: var(--space-md);
+        }
+
+        .upload-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+        }
+
+        .upload-subtext {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-md);
+        }
+
+        .image-preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+        }
+
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-remove-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+        }
+
+        .image-remove-btn:hover {
+            background: var(--danger);
+            transform: scale(1.1);
+        }
+
+        .price-input-wrapper {
+            position: relative;
+        }
+
+        .price-input-wrapper::before {
+            content: '₹';
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        .price-input-wrapper input {
+            padding-left: 35px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: var(--space-md);
+            margin-top: var(--space-2xl);
+        }
+
+        .form-actions button {
+            flex: 1;
+        }
+
+        .verification-info {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--success);
+            border-radius: 12px;
+            padding: var(--space-lg);
+            margin-top: var(--space-lg);
+        }
+
+        .verification-info-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .verification-info-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .benefits-section {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: var(--space-xl);
+            margin-top: var(--space-2xl);
+        }
+
+        .benefits-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: var(--space-lg);
+            letter-spacing: -0.3px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .benefit-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .benefit-content h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .benefit-content p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-lg);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .success-modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: var(--space-2xl);
+            max-width: 500px;
+            text-align: center;
+            animation: slideUp 0.3s ease;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-lg);
+            font-size: 40px;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .success-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: var(--space-md);
+            letter-spacing: -0.5px;
+        }
+
+        .success-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: var(--space-lg);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .listing-form-container {
+                padding: var(--space-lg);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo-section">
+                    <div class="logo-icon">K</div>
+                    <span class="logo-text">KANELIJO</span>
+                </div>
+                <div class="nav-links">
+                    <a href="papa.html" class="nav-link">Home</a>
+                    <a href="papa.html#find-rooms" class="nav-link">Find Rooms</a>
+                    <a href="papa.html#services" class="nav-link">Services</a>
+                    <a href="papa.html#about" class="nav-link">About</a>
+                    <button class="btn-primary" onclick="window.location.href='page.html'">List Your Property</button>
+                </div>
+                <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="listing-hero">
+        <div class="container">
+            <div class="listing-hero-content">
+                <h1>List Your Property on Kanelijo</h1>
+                <p>Reach thousands of students, professionals, and families looking for their perfect space. List your property for free and start earning today!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Listing Form Section -->
+    <section class="listing-form-section">
+        <div class="container">
+            <div class="listing-form-container">
+                <form id="listingForm" onsubmit="submitListing(event)">
+                    <!-- Basic Information -->
+                    <div class="form-section">
+                        <h2 class="form-section-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M4 12L12 4L20 12M6 10V20H18V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            Basic Information
+                        </h2>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label class="form-label">
+                                    Property Title <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-input" id="propertyTitle" placeholder="e.g., Cozy 2BHK near MANIT College" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Property Type <span class="required">*</span>
+                                </label>
+                                <select class="form-select" id="propertyType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="pg">PG (Paying Guest)</option>
+                                    <option value="hostel">Hostel</option>
+                                    <option value="flat">Flat</option>
+                                    <option value="apartment">Apartment</option>
+                                    <option value="house">Independent House</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    For <span class="required">*</span>
+                                </label>
+                                <select class="form-select" id="userType" required>
+                                    <option value="">Select Category</option>
+                                    <option value="student">Students</option>
+                                    <option value="professional">Professionals</option>
+                                    <option value="family">Families</option>
+                                    <option value="all">Everyone</option>
+                                </select>
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">
+                                    Description <span class="required">*</span>
+                                </label>
+                                <textarea class="form-textarea" id="description" placeholder="Describe your property, nearby facilities, and what makes it special..." required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location Details -->
+                    <div class="form-section">
+                        <h2 class="form-section-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Location
+                        </h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    City <span class="required">*</span>
+                                </label>
+                                <select class="form-select" id="city" required>
+                                    <option value="">Select City</option>
+                                    <option value="sehore">Sehore</option>
+                                    <option value="hoshangabad">Hoshangabad</option>
+                                    <option value="bhopal">Bhopal</option>
+                                    <option value="indore">Indore</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Area/Locality <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-input" id="locality" placeholder="e.g., Near MANIT, Arera Colony" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">
+                                    Complete Address <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-input" id="address" placeholder="House No., Street, Landmark" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Pin Code <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-input" id="pincode" placeholder="462001" pattern="[0-9]{6}" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Property Details -->
+                    <div class="form-section">
+                        <h2 class="form-section-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Property Details
+                        </h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Monthly Rent <span class="required">*</span>
+                                </label>
+                                <div class="price-input-wrapper">
+                                    <input type="number" class="form-input" id="rent" placeholder="8000" min="1000" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Security Deposit <span class="required">*</span>
+                                </label>
+                                <div class="price-input-wrapper">
+                                    <input type="number" class="form-input" id="deposit" placeholder="16000" min="0" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Bedrooms
+                                </label>
+                                <select class="form-select" id="bedrooms">
+                                    <option value="0">Not Applicable</option>
+                                    <option value="1">1 BHK</option>
+                                    <option value="2">2 BHK</option>
+                                    <option value="3">3 BHK</option>
+                                    <option value="4">4+ BHK</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Occupancy
+                                </label>
+                                <select class="form-select" id="occupancy">
+                                    <option value="single">Single</option>
+                                    <option value="double">Double Sharing</option>
+                                    <option value="triple">Triple Sharing</option>
+                                    <option value="multiple">Multiple Sharing</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Furnishing
+                                </label>
+                                <select class="form-select" id="furnishing">
+                                    <option value="unfurnished">Unfurnished</option>
+                                    <option value="semi-furnished">Semi-Furnished</option>
+                                    <option value="fully-furnished">Fully-Furnished</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Available From
+                                </label>
+                                <input type="date" class="form-input" id="availableFrom">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Amenities -->
+                    <div class="form-section">
+                        <h2 class="form-section-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 11L12 14L22 4M21 12V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            Amenities & Facilities
+                        </h2>
+                        <div class="form-checkbox-group" id="amenitiesGroup">
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="wifi" value="WiFi">
+                                <label for="wifi">WiFi</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="ac" value="AC">
+                                <label for="ac">Air Conditioning</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="parking" value="Parking">
+                                <label for="parking">Parking</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="food" value="Food">
+                                <label for="food">Food Included</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="laundry" value="Laundry">
+                                <label for="laundry">Laundry</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="gym" value="Gym">
+                                <label for="gym">Gym</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="security" value="Security">
+                                <label for="security">24/7 Security</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="powerBackup" value="Power Backup">
+                                <label for="powerBackup">Power Backup</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="water" value="Water">
+                                <label for="water">24/7 Water</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nearby Places -->
+                    <div class="form-section">
+                        <h2 class="form-section-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Nearby Places
+                        </h2>
+                        <div class="form-checkbox-group" id="nearbyGroup">
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="nearLibrary" value="library">
+                                <label for="nearLibrary">Library</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="nearSchool" value="school">
+                                <label for="nearSchool">School/College</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="nearGrocery" value="grocery">
+                                <label for="nearGrocery">Grocery Store</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="nearPark" value="park">
+                                <label for="nearPark">Park</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="nearCafe" value="cafe">
+                                <label for="nearCafe">Cafe/Restaurant</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox(this)">
+                                <input type="checkbox" id="nearGym" value="gym">
+                                <label for="nearGym">Gym</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Photos -->
+                    <div class="form-section">
+                        <h2 class="form-section-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M23 19C23 19.5304 22.7893 20.0391 22.4142 20.4142C22.0391 20.7893 21.5304 21 21 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V8C1 7.46957 1.21071 6.96086 1.58579 6.58579C1.96086 6.21071 2.46957 6 3 6H7L9 3H15L17 6H21C21.5304 6 22.0391 6.21071 22.4142 6.58579C22.7893 6.96086 23 7.46957 23 8V19Z" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="13" r="4" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Property Photos
+                        </h2>
+                        <div class="file-upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                            <div class="upload-icon">📸</div>
+                            <div class="upload-text">Click to upload or drag and drop</div>
+                            <div class="upload-subtext">Upload up to 10 photos (JPG, PNG, max 5MB each)</div>
+                            <input type="file" id="fileInput" class="file-input" multiple accept="image/*" onchange="handleFileSelect(event)">
+                        </div>
+                        <div class="image-preview-grid" id="imagePreview"></div>
+                    </div>
+
+                    <!-- Owner Information -->
+                    <div class="form-section">
+                        <h2 class="form-section-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            Owner Information
+                        </h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Your Name <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-input" id="ownerName" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Contact Number <span class="required">*</span>
+                                </label>
+                                <input type="tel" class="form-input" id="contactNumber" placeholder="+91 98765 43210" pattern="[0-9]{10}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Email Address <span class="required">*</span>
+                                </label>
+                                <input type="email" class="form-input" id="email" placeholder="your@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Aadhaar Number <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-input" id="aadhaar" placeholder="XXXX XXXX XXXX" pattern="[0-9]{12}" required>
+                            </div>
+                        </div>
+
+                        <div class="verification-info">
+                            <div class="verification-info-title">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 2L3 5V9C3 13.55 6.5 17.74 10 19C13.5 17.74 17 13.55 17 9V5L10 2Z" fill="currentColor"/>
+                                    <path d="M7 10L9 12L13 8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Verification Required
+                            </div>
+                            <p class="verification-info-text">
+                                Your Aadhaar information will be used solely for verification purposes to ensure the safety and security of our platform. All data is encrypted and protected according to privacy regulations.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="button" class="btn-large btn-secondary" onclick="window.location.href='papa.html'">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-large btn-primary">
+                            Submit Listing
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Benefits Section -->
+                <div class="benefits-section">
+                    <h3 class="benefits-title">Why List on Kanelijo?</h3>
+                    <div class="benefits-grid">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">🚀</div>
+                            <div class="benefit-content">
+                                <h4>Wide Reach</h4>
+                                <p>Get discovered by thousands of verified users</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">💰</div>
+                            <div class="benefit-content">
+                                <h4>Free Listing</h4>
+                                <p>List your property at zero cost</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">🔒</div>
+                            <div class="benefit-content">
+                                <h4>Secure Platform</h4>
+                                <p>Protected transactions and verified users</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">⚡</div>
+                            <div class="benefit-content">
+                                <h4>Quick Approval</h4>
+                                <p>Get listed within 24 hours</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-modal-content">
+            <div class="success-icon">✓</div>
+            <h2 class="success-title">Listing Submitted Successfully!</h2>
+            <p class="success-text">
+                Thank you for listing your property on Kanelijo! Our team will review your submission and get back to you within 24 hours.
+            </p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <button class="btn-large btn-primary" onclick="closeSuccessModal()" style="margin-top: var(--space-lg);">
+                Back to Home
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">K</div>
+                        <span class="logo-text">KANELIJO</span>
+                    </div>
+                    <p class="footer-desc">Your one-stop platform for finding rooms, amenities, and community connections.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="papa.html">Home</a></li>
+                        <li><a href="papa.html#find-rooms">Find Rooms</a></li>
+                        <li><a href="papa.html#services">Services</a></li>
+                        <li><a href="page.html">List Property</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>📧 hello@kanelijo.com</li>
+                        <li>📱 +91 98765 43210</li>
+                        <li>📍 Bhopal, Madhya Pradesh</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Kanelijo. All rights reserved. | Built with 💜 for students, professionals, and families</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let uploadedImages = [];
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // Toggle checkbox styling
+        function toggleCheckbox(element) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('checked', checkbox.checked);
+        }
+
+        // Handle file selection
+        function handleFileSelect(event) {
+            const files = Array.from(event.target.files);
+            
+            if (uploadedImages.length + files.length > 10) {
+                alert('You can upload maximum 10 images');
+                return;
+            }
+
+            files.forEach(file => {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`File ${file.name} is too large. Maximum size is 5MB`);
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImages.push({
+                        name: file.name,
+                        data: e.target.result
+                    });
+                    renderImagePreviews();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Render image previews
+        function renderImagePreviews() {
+            const previewContainer = document.getElementById('imagePreview');
+            previewContainer.innerHTML = uploadedImages.map((img, index) => `
+                <div class="image-preview-item">
+                    <img src="${img.data}" alt="${img.name}">
+                    <button type="button" class="image-remove-btn" onclick="removeImage(${index})">✕</button>
+                </div>
+            `).join('');
+        }
+
+        // Remove image
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            renderImagePreviews();
+        }
+
+        // Drag and drop functionality
+        const uploadArea = document.getElementById('uploadArea');
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = Array.from(e.dataTransfer.files);
+            document.getElementById('fileInput').files = e.dataTransfer.files;
+            handleFileSelect({ target: { files } });
+        });
+
+        // Submit listing form
+        function submitListing(event) {
+            event.preventDefault();
+
+            // Collect form data
+            const formData = {
+                propertyTitle: document.getElementById('propertyTitle').value,
+                propertyType: document.getElementById('propertyType').value,
+                userType: document.getElementById('userType').value,
+                description: document.getElementById('description').value,
+                city: document.getElementById('city').value,
+                locality: document.getElementById('locality').value,
+                address: document.getElementById('address').value,
+                pincode: document.getElementById('pincode').value,
+                rent: document.getElementById('rent').value,
+                deposit: document.getElementById('deposit').value,
+                bedrooms: document.getElementById('bedrooms').value,
+                occupancy: document.getElementById('occupancy').value,
+                furnishing: document.getElementById('furnishing').value,
+                availableFrom: document.getElementById('availableFrom').value,
+                amenities: Array.from(document.querySelectorAll('#amenitiesGroup input:checked')).map(cb => cb.value),
+                nearby: Array.from(document.querySelectorAll('#nearbyGroup input:checked')).map(cb => cb.value),
+                ownerName: document.getElementById('ownerName').value,
+                contactNumber: document.getElementById('contactNumber').value,
+                email: document.getElementById('email').value,
+                aadhaar: document.getElementById('aadhaar').value,
+                images: uploadedImages,
+                submittedAt: new Date().toISOString()
+            };
+
+            // Store in localStorage (in real app, send to backend)
+            const existingListings = JSON.parse(localStorage.getItem('kanelijo_listings') || '[]');
+            existingListings.push(formData);
+            localStorage.setItem('kanelijo_listings', JSON.stringify(existingListings));
+
+            console.log('Form submitted:', formData);
+
+            // Show success modal
+            showSuccessModal();
+        }
+
+        // Show success modal
+        function showSuccessModal() {
+            const modal = document.getElementById('successModal');
+            const progressFill = document.getElementById('progressFill');
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+
+            // Animate progress bar
+            setTimeout(() => {
+                progressFill.style.width = '100%';
+            }, 100);
+        }
+
+        // Close success modal
+        function closeSuccessModal() {
+            const modal = document.getElementById('successModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // Redirect to home page
+            window.location.href = 'papa.html';
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+
+        // Form validation animations
+        document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => {
+            input.addEventListener('invalid', function() {
+                this.style.borderColor = 'var(--danger)';
+                this.style.animation = 'shake 0.3s ease';
+            });
+
+            input.addEventListener('input', function() {
+                if (this.validity.valid) {
+                    this.style.borderColor = 'var(--success)';
+                    this.style.animation = '';
+                }
+            });
+        });
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanelijo - Find Your Perfect Room & Amenities</title>
+    <link rel="stylesheet" href="lala.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo-section">
+                    <div class="logo-icon">K</div>
+                    <span class="logo-text">KANELIJO</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#home" class="nav-link active">Home</a>
+                    <a href="#find-rooms" class="nav-link">Find Rooms</a>
+                    <a href="#services" class="nav-link">Services</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <button class="btn-primary">List Your Property</button>
+                </div>
+                <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">🚀 Your Perfect Space Awaits</div>
+                <h1 class="hero-title">
+                    Find Rooms,<br>
+                    <span class="gradient-text">Discover Life</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Everything you need at your fingertips - rooms, libraries, schools, shops, and exploration spots. 
+                    All in one powerful platform.
+                </p>
+                <div class="hero-cta">
+                    <button class="btn-large btn-primary" onclick="scrollToSearch()">
+                        Start Your Search
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    <button class="btn-large btn-secondary">
+                        Watch Demo
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M6 4L16 10L6 16V4Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Verified Rooms</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Partner Libraries</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1000+</div>
+                        <div class="stat-label">Happy Users</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section id="find-rooms" class="search-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Find Your Perfect Space</h2>
+                <p class="section-subtitle">Filter by your preferences and discover your ideal room with all amenities nearby</p>
+            </div>
+
+            <div class="search-panel">
+                <div class="search-filters">
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M10 2C6.13 2 3 5.13 3 9C3 13.17 10 20 10 20C10 20 17 13.17 17 9C17 5.13 13.87 2 10 2Z" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="10" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Select City
+                        </label>
+                        <select id="cityFilter" class="filter-select" onchange="updateResults()">
+                            <option value="">All Cities</option>
+                            <option value="sehore">Sehore</option>
+                            <option value="hoshangabad">Hoshangabad</option>
+                            <option value="bhopal">Bhopal</option>
+                            <option value="indore">Indore</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M3 9L10 2L17 9M5 7V17H15V7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            Room Type
+                        </label>
+                        <select id="roomTypeFilter" class="filter-select" onchange="updateResults()">
+                            <option value="">All Types</option>
+                            <option value="pg">PG</option>
+                            <option value="hostel">Hostel</option>
+                            <option value="flat">Flat</option>
+                            <option value="apartment">Apartment</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M2 10C2 5.58 5.58 2 10 2C14.42 2 18 5.58 18 10C18 14.42 14.42 18 10 18C5.58 18 2 14.42 2 10Z" stroke="currentColor" stroke-width="2"/>
+                                <path d="M10 6V10L13 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            For
+                        </label>
+                        <select id="userTypeFilter" class="filter-select" onchange="updateResults()">
+                            <option value="">Everyone</option>
+                            <option value="student">Students</option>
+                            <option value="professional">Professionals</option>
+                            <option value="family">Families</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group budget-filter">
+                        <label class="filter-label">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M10 2V18M6 6H12C13.1 6 14 6.9 14 8C14 9.1 13.1 10 12 10H6M6 10H13C14.1 10 15 10.9 15 12C15 13.1 14.1 14 13 14H6M6 10V14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            Budget: ₹<span id="budgetValue">15000</span>
+                        </label>
+                        <input type="range" id="budgetRange" class="budget-slider" min="2000" max="30000" value="15000" step="1000" oninput="updateBudget(this.value)">
+                        <div class="budget-range-labels">
+                            <span>₹2k</span>
+                            <span>₹30k</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="amenities-filter">
+                    <label class="filter-label">Nearby Amenities</label>
+                    <div class="amenity-tags">
+                        <button class="amenity-tag" data-amenity="library" onclick="toggleAmenity(this)">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M3 2V14M13 2V14M3 8H13M1 2H15M1 14H15" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                            Library
+                        </button>
+                        <button class="amenity-tag" data-amenity="school" onclick="toggleAmenity(this)">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 1L1 4V7C1 10.87 4 14.5 8 15C12 14.5 15 10.87 15 7V4L8 1Z" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                            School
+                        </button>
+                        <button class="amenity-tag" data-amenity="grocery" onclick="toggleAmenity(this)">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M1 1H3L4.5 10H13L15 4H5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="5.5" cy="13" r="1" fill="currentColor"/>
+                                <circle cx="12" cy="13" r="1" fill="currentColor"/>
+                            </svg>
+                            Grocery
+                        </button>
+                        <button class="amenity-tag" data-amenity="gym" onclick="toggleAmenity(this)">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M3 8H13M3 5V11M13 5V11M1 6V10M15 6V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            Gym
+                        </button>
+                        <button class="amenity-tag" data-amenity="park" onclick="toggleAmenity(this)">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 1C8 1 5 4 5 7C5 8.66 6.34 10 8 10C9.66 10 11 8.66 11 7C11 4 8 1 8 1Z" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M8 10V15M5 15H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            Park
+                        </button>
+                        <button class="amenity-tag" data-amenity="cafe" onclick="toggleAmenity(this)">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M2 6H12M12 6V12H4V6M12 6H14V9H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                <path d="M4 3C4 3 5 2 6 2C7 2 8 3 8 3C8 3 9 2 10 2C11 2 12 3 12 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            Cafe
+                        </button>
+                    </div>
+                </div>
+
+                <button class="btn-search" onclick="updateResults()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="2"/>
+                        <path d="M13 13L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Search Rooms
+                </button>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-header">
+                    <h3 class="results-title">Available Rooms <span id="resultCount">(12)</span></h3>
+                    <div class="view-toggle">
+                        <button class="view-btn active" onclick="toggleView('grid')">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <rect x="1" y="1" width="6" height="6" stroke="currentColor" stroke-width="1.5"/>
+                                <rect x="11" y="1" width="6" height="6" stroke="currentColor" stroke-width="1.5"/>
+                                <rect x="1" y="11" width="6" height="6" stroke="currentColor" stroke-width="1.5"/>
+                                <rect x="11" y="11" width="6" height="6" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </button>
+                        <button class="view-btn" onclick="toggleView('map')">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M1 4L6 2L12 4L17 2V14L12 16L6 14L1 16V4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                                <path d="M6 2V14M12 4V16" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="roomsGrid" class="rooms-grid">
+                    <!-- Room cards will be generated by JavaScript -->
+                </div>
+
+                <div id="mapView" class="map-view" style="display: none;">
+                    <div id="map" class="map-container"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Services</h2>
+                <p class="section-subtitle">Everything you need, all in one place</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M6 18L16 8L26 18M8 16V28H24V16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Room Booking</h3>
+                    <p class="service-description">Find and book verified rooms instantly. Pay online, move hassle-free.</p>
+                    <ul class="service-features">
+                        <li>Verified listings</li>
+                        <li>Online payment</li>
+                        <li>Instant confirmation</li>
+                    </ul>
+                </div>
+
+                <div class="service-card featured">
+                    <div class="featured-badge">Most Popular</div>
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M6 6V26M26 6V26M6 16H26M2 6H30M2 26H30" stroke="currentColor" stroke-width="2.5"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Library Seats</h3>
+                    <p class="service-description">Pre-book study seats in libraries. No more hunting for space during exams.</p>
+                    <ul class="service-features">
+                        <li>Hourly/daily booking</li>
+                        <li>WiFi enabled spaces</li>
+                        <li>Peaceful environment</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M4 4H12L16 20H28L30 8H10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                            <circle cx="12" cy="26" r="2" fill="currentColor"/>
+                            <circle cx="24" cy="26" r="2" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Grocery Delivery</h3>
+                    <p class="service-description">Order groceries from nearby stores. Fast delivery to your doorstep.</p>
+                    <ul class="service-features">
+                        <li>Local stores</li>
+                        <li>Same-day delivery</li>
+                        <li>Best prices</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M4 8H28M4 16H28M4 24H28M8 4V28M24 4V28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Stationery Store</h3>
+                    <p class="service-description">Buy study materials, notebooks, pens. Everything students need.</p>
+                    <ul class="service-features">
+                        <li>Wide range</li>
+                        <li>Student discounts</li>
+                        <li>Quick delivery</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M16 4C9.38 4 4 9.38 4 16C4 22.62 16 32 16 32C16 32 28 22.62 28 16C28 9.38 22.62 4 16 4Z" stroke="currentColor" stroke-width="2.5"/>
+                            <circle cx="16" cy="16" r="4" stroke="currentColor" stroke-width="2.5"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Explore Places</h3>
+                    <p class="service-description">Discover parks, cafes, and walking spots near your location.</p>
+                    <ul class="service-features">
+                        <li>Curated spots</li>
+                        <li>User reviews</li>
+                        <li>Distance info</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M16 4L4 10V16C4 22.62 10 28.5 16 30C22 28.5 28 22.62 28 16V10L16 4Z" stroke="currentColor" stroke-width="2.5"/>
+                            <path d="M12 16L15 19L21 13" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Verified Owners</h3>
+                    <p class="service-description">All property owners verified with Aadhaar. Your safety is our priority.</p>
+                    <ul class="service-features">
+                        <li>Aadhaar verified</li>
+                        <li>Transparent info</li>
+                        <li>Secure platform</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">Simple, fast, and efficient</p>
+            </div>
+
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">🔍</div>
+                    <h3 class="step-title">Search & Filter</h3>
+                    <p class="step-description">Choose your city, set your budget, select amenities you need</p>
+                </div>
+
+                <div class="step-connector"></div>
+
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">🏠</div>
+                    <h3 class="step-title">Browse Rooms</h3>
+                    <p class="step-description">View verified listings with photos, amenities, and nearby facilities</p>
+                </div>
+
+                <div class="step-connector"></div>
+
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <div class="step-icon">💬</div>
+                    <h3 class="step-title">Contact Owner</h3>
+                    <p class="step-description">Chat with verified owners, ask questions, schedule visits</p>
+                </div>
+
+                <div class="step-connector"></div>
+
+                <div class="step-card">
+                    <div class="step-number">04</div>
+                    <div class="step-icon">✅</div>
+                    <h3 class="step-title">Book & Pay</h3>
+                    <p class="step-description">Secure online payment, instant confirmation, move in!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">What People Say</h2>
+                <p class="section-subtitle">Real stories from real users</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">A</div>
+                        <div class="testimonial-info">
+                            <h4 class="testimonial-name">Ananya Sharma</h4>
+                            <p class="testimonial-role">Engineering Student, Bhopal</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Found the perfect PG near my college in just 2 hours! The library booking feature saved my exam preparation. Amazing platform!"</p>
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">R</div>
+                        <div class="testimonial-info">
+                            <h4 class="testimonial-name">Rahul Verma</h4>
+                            <p class="testimonial-role">Software Developer, Indore</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"No more wasting weekends searching for rooms. Found my flat with gym and cafes nearby. The map view is super helpful!"</p>
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">P</div>
+                        <div class="testimonial-info">
+                            <h4 class="testimonial-name">Priya Patel</h4>
+                            <p class="testimonial-role">Medical Student, Sehore</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"The grocery delivery and stationery store features are lifesavers during exam season. Everything I need in one app!"</p>
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Find Your Perfect Space?</h2>
+                <p class="cta-subtitle">Join thousands of happy users who found their ideal room with Kanelijo</p>
+                <div class="cta-buttons">
+                    <button class="btn-large btn-primary" onclick="scrollToSearch()">
+                        Get Started Now
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    <button class="btn-large btn-outline">Contact Us</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">K</div>
+                        <span class="logo-text">KANELIJO</span>
+                    </div>
+                    <p class="footer-desc">Your one-stop platform for finding rooms, amenities, and community connections.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M20 10C20 4.48 15.52 0 10 0S0 4.48 0 10c0 4.99 3.66 9.12 8.44 9.88v-6.99H5.9V10h2.54V7.8c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.24.19 2.24.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56V10h2.78l-.45 2.89h-2.33v6.99C16.34 19.12 20 14.99 20 10z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M20 3.8a8.19 8.19 0 01-2.36.64 4.13 4.13 0 001.81-2.27 8.25 8.25 0 01-2.61 1 4.1 4.1 0 00-7 3.74 11.64 11.64 0 01-8.45-4.29 4.1 4.1 0 001.27 5.47A4.07 4.07 0 01.8 7.7v.05a4.1 4.1 0 003.29 4.02 4.1 4.1 0 01-1.85.07 4.1 4.1 0 003.83 2.85A8.23 8.23 0 010 16.4a11.62 11.62 0 006.29 1.84c7.55 0 11.68-6.25 11.68-11.67 0-.18 0-.35-.01-.53A8.35 8.35 0 0020 3.8z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm3.96 7.17c-.08 5.02-2.67 7.07-6.5 7.33v-5.17H5.73v-2.16h1.73V5.93c0-1.71.84-2.7 2.58-2.7.77 0 1.19.06 1.38.09v1.93h-1.1c-.75 0-1.01.71-1.01 1.51v1.41h2.08l-.28 2.16h-1.8v5.22c3.76-.43 6.28-2.61 6.35-7.38z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#find-rooms">Find Rooms</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Room Booking</a></li>
+                        <li><a href="#">Library Seats</a></li>
+                        <li><a href="#">Grocery Delivery</a></li>
+                        <li><a href="#">Stationery Store</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>📧 hello@kanelijo.com</li>
+                        <li>📱 +91 98765 43210</li>
+                        <li>📍 Bhopal, Madhya Pradesh</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Kanelijo. All rights reserved. | Built with 💜 for students, professionals, and families</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Room Detail Modal -->
+    <div id="roomModal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalBody">
+                <!-- Content will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Sample Data
+        const roomsData = [
+            {
+                id: 1,
+                title: "Cozy PG Near MANIT College",
+                type: "pg",
+                city: "bhopal",
+                price: 8000,
+                rating: 4.8,
+                reviews: 24,
+                image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80",
+                amenities: ["WiFi", "Food", "Laundry", "AC"],
+                nearby: ["library", "school", "grocery"],
+                location: [23.2599, 77.4126],
+                userType: "student",
+                description: "Perfect for MANIT students. 5 minutes walk to college. Includes food, WiFi, and all basic amenities.",
+                features: ["Attached Bathroom", "Study Table", "Cupboard", "24/7 Water"]
+            },
+            {
+                id: 2,
+                title: "Modern Flat for Professionals",
+                type: "flat",
+                city: "indore",
+                price: 15000,
+                rating: 4.9,
+                reviews: 31,
+                image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80",
+                amenities: ["Gym", "Parking", "WiFi", "Security"],
+                nearby: ["gym", "cafe", "grocery", "park"],
+                location: [22.7196, 75.8577],
+                userType: "professional",
+                description: "2BHK fully furnished flat in prime location. Perfect for working professionals.",
+                features: ["Modular Kitchen", "Balcony", "Reserved Parking", "Power Backup"]
+            },
+            {
+                id: 3,
+                title: "Student Hostel Near Library",
+                type: "hostel",
+                city: "sehore",
+                price: 5500,
+                rating: 4.5,
+                reviews: 18,
+                image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&q=80",
+                amenities: ["WiFi", "Food", "Study Room", "Library"],
+                nearby: ["library", "school", "park"],
+                location: [23.2000, 77.0833],
+                userType: "student",
+                description: "Budget-friendly hostel with excellent study environment. Library access included.",
+                features: ["Shared Room", "3 Meals", "Study Room", "Common Area"]
+            },
+            {
+                id: 4,
+                title: "Spacious 3BHK for Families",
+                type: "apartment",
+                city: "bhopal",
+                price: 20000,
+                rating: 4.7,
+                reviews: 15,
+                image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80",
+                amenities: ["Parking", "Garden", "Security", "Playground"],
+                nearby: ["school", "grocery", "park", "cafe"],
+                location: [23.2400, 77.4100],
+                userType: "family",
+                description: "Perfect family apartment with children's play area and nearby schools.",
+                features: ["3 Bedrooms", "2 Bathrooms", "Balcony", "Modular Kitchen"]
+            },
+            {
+                id: 5,
+                title: "Affordable PG for Students",
+                type: "pg",
+                city: "hoshangabad",
+                price: 4500,
+                rating: 4.3,
+                reviews: 22,
+                image: "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80",
+                amenities: ["WiFi", "Food", "Laundry"],
+                nearby: ["library", "grocery", "park"],
+                location: [22.7500, 77.7333],
+                userType: "student",
+                description: "Budget PG with all basic facilities. Peaceful environment for studies.",
+                features: ["Shared Room", "2 Meals", "WiFi", "Laundry"]
+            },
+            {
+                id: 6,
+                title: "Luxury Apartment Downtown",
+                type: "apartment",
+                city: "indore",
+                price: 25000,
+                rating: 5.0,
+                reviews: 42,
+                image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80",
+                amenities: ["Gym", "Pool", "Parking", "Security", "WiFi"],
+                nearby: ["gym", "cafe", "grocery", "park"],
+                location: [22.7200, 75.8600],
+                userType: "professional",
+                description: "Premium apartment with world-class amenities in heart of the city.",
+                features: ["3 BHK", "Swimming Pool", "Gym", "Clubhouse", "24/7 Security"]
+            },
+            {
+                id: 7,
+                title: "Girls PG Near College",
+                type: "pg",
+                city: "bhopal",
+                price: 7000,
+                rating: 4.6,
+                reviews: 19,
+                image: "https://images.unsplash.com/photo-1554995207-c18c203602cb?w=800&q=80",
+                amenities: ["WiFi", "Food", "Security", "Laundry"],
+                nearby: ["school", "library", "grocery"],
+                location: [23.2500, 77.4200],
+                userType: "student",
+                description: "Safe and secure PG exclusively for girls. Close to major colleges.",
+                features: ["Girls Only", "CCTV", "Warden", "3 Meals"]
+            },
+            {
+                id: 8,
+                title: "1BHK for Working Professional",
+                type: "flat",
+                city: "sehore",
+                price: 9000,
+                rating: 4.4,
+                reviews: 12,
+                image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80",
+                amenities: ["WiFi", "Parking", "Security"],
+                nearby: ["cafe", "grocery", "park"],
+                location: [23.2100, 77.0900],
+                userType: "professional",
+                description: "Compact 1BHK perfect for single professionals. Quiet neighborhood.",
+                features: ["Furnished", "Kitchen", "Parking", "Power Backup"]
+            },
+            {
+                id: 9,
+                title: "Family House with Garden",
+                type: "apartment",
+                city: "indore",
+                price: 18000,
+                rating: 4.8,
+                reviews: 28,
+                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
+                amenities: ["Garden", "Parking", "Security"],
+                nearby: ["school", "park", "grocery", "cafe"],
+                location: [22.7100, 75.8500],
+                userType: "family",
+                description: "Beautiful house with private garden. Perfect for families with kids.",
+                features: ["2 BHK", "Garden", "Terrace", "Safe Neighborhood"]
+            },
+            {
+                id: 10,
+                title: "Budget Hostel for Boys",
+                type: "hostel",
+                city: "bhopal",
+                price: 6000,
+                rating: 4.2,
+                reviews: 34,
+                image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&q=80",
+                amenities: ["WiFi", "Food", "Study Room"],
+                nearby: ["library", "school", "grocery"],
+                location: [23.2300, 77.4300],
+                userType: "student",
+                description: "Affordable hostel with good food and study facilities.",
+                features: ["Boys Only", "3 Meals", "WiFi", "Common Study Room"]
+            },
+            {
+                id: 11,
+                title: "Studio Apartment City Center",
+                type: "flat",
+                city: "indore",
+                price: 12000,
+                rating: 4.7,
+                reviews: 21,
+                image: "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80",
+                amenities: ["WiFi", "Gym", "Parking"],
+                nearby: ["gym", "cafe", "grocery"],
+                location: [22.7180, 75.8570],
+                userType: "professional",
+                description: "Modern studio in prime location. Perfect for young professionals.",
+                features: ["Fully Furnished", "Kitchen", "Gym Access", "WiFi"]
+            },
+            {
+                id: 12,
+                title: "Premium PG with All Amenities",
+                type: "pg",
+                city: "bhopal",
+                price: 10000,
+                rating: 4.9,
+                reviews: 37,
+                image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80",
+                amenities: ["WiFi", "Food", "AC", "Gym", "Laundry"],
+                nearby: ["library", "gym", "cafe", "grocery"],
+                location: [23.2450, 77.4150],
+                userType: "student",
+                description: "Premium PG with 5-star facilities. Best in class accommodation.",
+                features: ["AC Rooms", "Gym", "WiFi", "4 Meals", "Housekeeping"]
+            }
+        ];
+
+        let filteredRooms = [...roomsData];
+        let selectedAmenities = [];
+        let map;
+        let markers = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderRooms();
+            initMap();
+        });
+
+        // Update budget display
+        function updateBudget(value) {
+            document.getElementById('budgetValue').textContent = value;
+        }
+
+        // Toggle amenity selection
+        function toggleAmenity(btn) {
+            const amenity = btn.dataset.amenity;
+            btn.classList.toggle('active');
+            
+            if (selectedAmenities.includes(amenity)) {
+                selectedAmenities = selectedAmenities.filter(a => a !== amenity);
+            } else {
+                selectedAmenities.push(amenity);
+            }
+        }
+
+        // Update results based on filters
+        function updateResults() {
+            const city = document.getElementById('cityFilter').value;
+            const roomType = document.getElementById('roomTypeFilter').value;
+            const userType = document.getElementById('userTypeFilter').value;
+            const budget = parseInt(document.getElementById('budgetRange').value);
+
+            filteredRooms = roomsData.filter(room => {
+                const cityMatch = !city || room.city === city;
+                const typeMatch = !roomType || room.type === roomType;
+                const userMatch = !userType || room.userType === userType;
+                const budgetMatch = room.price <= budget;
+                const amenityMatch = selectedAmenities.length === 0 || 
+                    selectedAmenities.every(amenity => room.nearby.includes(amenity));
+
+                return cityMatch && typeMatch && userMatch && budgetMatch && amenityMatch;
+            });
+
+            renderRooms();
+            updateMapMarkers();
+        }
+
+        // Render room cards
+        function renderRooms() {
+            const grid = document.getElementById('roomsGrid');
+            document.getElementById('resultCount').textContent = `(${filteredRooms.length})`;
+
+            grid.innerHTML = filteredRooms.map(room => `
+                <div class="room-card" onclick="showRoomDetails(${room.id})">
+                    <div class="room-image" style="background-image: url('${room.image}')">
+                        <div class="room-badge">${room.type.toUpperCase()}</div>
+                        <div class="room-price">₹${room.price.toLocaleString()}/mo</div>
+                    </div>
+                    <div class="room-content">
+                        <div class="room-header">
+                            <h3 class="room-title">${room.title}</h3>
+                            <div class="room-rating">
+                                <span class="rating-star">⭐</span>
+                                <span class="rating-value">${room.rating}</span>
+                                <span class="rating-count">(${room.reviews})</span>
+                            </div>
+                        </div>
+                        <p class="room-description">${room.description}</p>
+                        <div class="room-amenities">
+                            ${room.amenities.slice(0, 3).map(a => `
+                                <span class="amenity-badge">${a}</span>
+                            `).join('')}
+                            ${room.amenities.length > 3 ? `<span class="amenity-badge">+${room.amenities.length - 3}</span>` : ''}
+                        </div>
+                        <div class="room-footer">
+                            <div class="room-location">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                    <path d="M7 1C4.24 1 2 3.24 2 6C2 9.17 7 13 7 13C7 13 12 9.17 12 6C12 3.24 9.76 1 7 1Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                                ${room.city.charAt(0).toUpperCase() + room.city.slice(1)}
+                            </div>
+                            <button class="btn-view" onclick="showRoomDetails(${room.id}); event.stopPropagation();">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize map
+        function initMap() {
+            map = L.map('map').setView([23.2599, 77.4126], 10);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            updateMapMarkers();
+        }
+
+        // Update map markers
+        function updateMapMarkers() {
+            if (!map) return;
+
+            // Clear existing markers
+            markers.forEach(marker => marker.remove());
+            markers = [];
+
+            // Add new markers
+            filteredRooms.forEach(room => {
+                const marker = L.marker(room.location).addTo(map);
+                marker.bindPopup(`
+                    <div style="min-width: 200px;">
+                        <h4 style="margin: 0 0 8px 0; font-size: 14px;">${room.title}</h4>
+                        <p style="margin: 0 0 8px 0; color: #666; font-size: 12px;">${room.description}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <strong style="color: #FF6B35; font-size: 16px;">₹${room.price.toLocaleString()}/mo</strong>
+                            <button onclick="showRoomDetails(${room.id})" style="background: #FF6B35; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;">View</button>
+                        </div>
+                    </div>
+                `);
+                markers.push(marker);
+            });
+
+            // Fit bounds if there are markers
+            if (markers.length > 0) {
+                const group = L.featureGroup(markers);
+                map.fitBounds(group.getBounds().pad(0.1));
+            }
+        }
+
+        // Toggle view (grid/map)
+        function toggleView(view) {
+            const gridView = document.getElementById('roomsGrid');
+            const mapView = document.getElementById('mapView');
+            const buttons = document.querySelectorAll('.view-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.view-btn').classList.add('active');
+
+            if (view === 'grid') {
+                gridView.style.display = 'grid';
+                mapView.style.display = 'none';
+            } else {
+                gridView.style.display = 'none';
+                mapView.style.display = 'block';
+                setTimeout(() => map.invalidateSize(), 100);
+            }
+        }
+
+        // Show room details in modal
+        function showRoomDetails(id) {
+            const room = roomsData.find(r => r.id === id);
+            if (!room) return;
+
+            const modal = document.getElementById('roomModal');
+            const modalBody = document.getElementById('modalBody');
+
+            modalBody.innerHTML = `
+                <div class="modal-image" style="background-image: url('${room.image}')"></div>
+                <div class="modal-details">
+                    <div class="modal-header-section">
+                        <h2 class="modal-title">${room.title}</h2>
+                        <div class="modal-price">₹${room.price.toLocaleString()}<span>/month</span></div>
+                    </div>
+                    
+                    <div class="modal-rating">
+                        <span class="rating-star">⭐</span>
+                        <span class="rating-value">${room.rating}</span>
+                        <span class="rating-count">(${room.reviews} reviews)</span>
+                        <span class="room-type-badge">${room.type.toUpperCase()}</span>
+                    </div>
+
+                    <p class="modal-description">${room.description}</p>
+
+                    <div class="modal-section">
+                        <h3 class="modal-section-title">Key Features</h3>
+                        <div class="features-grid">
+                            ${room.features.map(f => `
+                                <div class="feature-item">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M3 8L7 12L13 4" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    ${f}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="modal-section">
+                        <h3 class="modal-section-title">Amenities</h3>
+                        <div class="amenities-grid">
+                            ${room.amenities.map(a => `
+                                <span class="modal-amenity-badge">${a}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="modal-section">
+                        <h3 class="modal-section-title">Nearby Places</h3>
+                        <div class="nearby-grid">
+                            ${room.nearby.map(n => `
+                                <span class="nearby-badge">${n}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="btn-large btn-primary" onclick="bookRoom(${room.id})">
+                            Book Now
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                        <button class="btn-large btn-secondary" onclick="contactOwner(${room.id})">
+                            Contact Owner
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeModal() {
+            const modal = document.getElementById('roomModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Book room
+        function bookRoom(id) {
+            alert('Booking feature coming soon! Room ID: ' + id);
+            closeModal();
+        }
+
+        // Contact owner
+        function contactOwner(id) {
+            alert('Contact feature coming soon! Room ID: ' + id);
+        }
+
+        // Scroll to search
+        function scrollToSearch() {
+            document.getElementById('find-rooms').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Close mobile menu if open
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.querySelectorAll('.service-card, .step-card, .testimonial-card, .room-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
